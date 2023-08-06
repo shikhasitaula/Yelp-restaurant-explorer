@@ -1,0 +1,32 @@
+{
+   "restaurants": {
+        "Washington": {
+            "Indian": [{
+                "name": "India Masala",
+                "coords": [47.731088, -122.292710],
+                "rating": 4.5,
+                "address": "14027 Lake City Way NE, Seattle, WA"
+            },
+            {
+                "name": "The Everest Kitchen",
+                "coords": [47.755455241929525, -122.28141816332209],
+                "rating": 4.3,
+                "address": "17171 Bothell Way NE A - 016, Lake Forest Park, WA 98155"
+            }],
+            "Italian": [{
+                "name": "Olive Garden Italian Restaurant",
+                "coords": [47.748866510025586, -117.40163889539402],
+                "rating": 4.3,
+                "address": "9780 N Newport Hwy, Spokane, WA 99218"
+            }]
+        },
+        "Colorado": {
+            "Thai": [{
+                "name": "Thai Mint Restaurant",
+                "coords": [38.94452953328799, -104.79531085824638],
+                "rating": 4.5,
+                "address": "1725 Briargate Blvd, Colorado Springs, CO 80920"
+            }]
+        }
+   }
+}

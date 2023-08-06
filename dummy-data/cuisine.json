@@ -1,0 +1,73 @@
+{
+    "cuisines": {
+        "Washington": [
+        {
+            "name": "Indian",
+            "count": 2
+        }, {
+            "name": "Italian",
+            "count": 3
+        }, {
+            "name": "Thai",
+            "count": 8
+        }], 
+        "Oregon": [
+        {
+            "name": "Indian",
+            "count": 3
+        }, {
+            "name": "Italian",
+            "count": 19
+        }, {
+            "name": "Thai",
+            "count": 34
+        }, {
+            "name": "Nepali",
+            "count": 3
+        }],
+        "California": [
+        {
+            "name": "Indian",
+            "count": 2
+        }, {
+            "name": "Italian",
+            "count": 3
+        }, {
+            "name": "Thai",
+            "count": 8
+        }],
+        "New York": [
+        {
+            "name": "Indian",
+            "count": 2
+        }, {
+            "name": "Italian",
+            "count": 2
+        }, {
+            "name": "Thai",
+            "count": 13
+        }],
+        "Nevada": [
+        {
+            "name": "Indian",
+            "count": 4
+        }, {
+            "name": "Italian",
+            "count": 31
+        }, {
+            "name": "Thai",
+            "count": 22
+        }],
+        "Colorado": [
+        {
+            "name": "Indian",
+            "count": 172
+        }, {
+            "name": "Italian",
+            "count": 22
+        }, {
+            "name": "Thai",
+            "count": 7
+        }]
+    }
+}
