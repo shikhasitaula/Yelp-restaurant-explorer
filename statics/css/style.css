@@ -13,11 +13,22 @@ body {
     text-align: center;
   }
 
+  /* Set background color for the entire HTML page */
+html {
+  background-color: #f7e8e8; /* Replace this with your desired color */
+}
+
+/* Set background color for the body element */
+body {
+  background-color: #f0f0f0; /* Replace this with your desired color */
+}
+
 
   /* img {
     max-height: 50%; 
   }
-   */
+ 
+  
   /* CSS from the leaflet-choropleth documentation */
   .legend {
     color: #555;
