@@ -1,53 +1,64 @@
+// #Business Search      URL -- 'https://api.yelp.com/v3/businesses/search'
+// #Business Match       URL -- 'https://api.yelp.com/v3/businesses/matches'
+// #Phone Search         URL -- 'https://api.yelp.com/v3/businesses/search/phone'
+
+// #Business Details     URL -- 'https://api.yelp.com/v3/businesses/{id}'
+// #Business Reviews     URL -- 'https://api.yelp.com/v3/businesses/{id}/reviews'
+
+// get the url
+const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
+
+import request
+from YelpAPI import get_my_key
 
 
 
 
+//  build a meta data Demographic
 
+function showMetaData(selectedSample) {
+  d3.json(url).then((data)=>{
+  let metaData1 = data.metadata;
+  let newarray = metaData1.filter( sampleobject => sampleobject.id == selectedSample)
+  let result = newarray [0];
 
+console.log("result2", result);
 
+let metadataDisplay = d3.select("#sample-metadata");
+metadataDisplay.html("");
+Object.entries(result).forEach(([key, value]) => {
+  // metadataDisplay.append("h3").text(`${key}: ${value}`);
+  metadataDisplay.append("h3").text(`${key}: ${value}`);
+});
+});
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // get the url
-// const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
-
-// //  build a meta data Demographic
-
-// function showMetaData(selectedSample) {
-//   d3.json(url).then((data)=>{
-//   let metaData1 = data.metadata;
-//   let newarray = metaData1.filter( sampleobject => sampleobject.id == selectedSample)
-//   let result = newarray [0];
-
-// console.log("result2", result);
-
-// let metadataDisplay = d3.select("#sample-metadata");
-// metadataDisplay.html("");
-// Object.entries(result).forEach(([key, value]) => {
-//   // metadataDisplay.append("h3").text(`${key}: ${value}`);
-//   metadataDisplay.append("h3").text(`${key}: ${value}`);
-// });
-// });
-// }
-
-// function buildCharts(selectedSample) {
-// d3.json(url).then(function(data) {
+function buildCharts(selectedSample) {
+d3.json(url).then(function(data) {
 //   console.log(data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // // Filter the data to get the information for the selected sample

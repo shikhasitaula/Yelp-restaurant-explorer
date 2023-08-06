@@ -12,7 +12,12 @@ body {
   .leaflet-popup-content {
     text-align: center;
   }
-  
+
+
+  /* img {
+    max-height: 50%; 
+  }
+   */
   /* CSS from the leaflet-choropleth documentation */
   .legend {
     color: #555;
@@ -47,3 +52,4 @@ body {
     text-align: center;
   }
   
+ 
