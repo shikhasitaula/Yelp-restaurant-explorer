@@ -5,11 +5,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Discovering Culinary Delights Across the States</title>
+  <title>Yelp Restaurant Explorer</title>
 
   <link rel="stylesheet" href="styles.css">
+
+      <!-- CSS for Leafleft -->
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+
+        <!-- Javascript for leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
 </head>
 
 <body>
@@ -17,13 +28,16 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
+
         <h1>Cuisine Explorer Dashboard</h1>
         <img src="images/1.jpg" width= "800" height = "200" alt="Cuisine Explorer Dashboard Image">
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
+  </div>
+
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-1">
         <div class="well">
           <h5>state.:</h5>
           <select id="selDataset" onchange="optionChanged(this.value)">
@@ -34,40 +48,52 @@
         </select>
       </div>
       </div>
+    </div>
 
-      <div class="col-md-2">
+      <div class="col-md-1">
         <div class="well">
           <h5>cuisines:</h5>
           <select id="selAnotherDropdown" onchange="anotherOptionChanged(this.value)">
-            <!-- <option value="optionA">Option A</option>
-            <option value="optionB">Option B</option> -->
+           
             <!-- Add more options here as needed -->
           </select>
         </div>
       </div>
       
-
         <div class="panel panel-primary">
           <div class="panel-heading">
             <!-- <h3 class="panel-y2title">Demographic Info</h3> -->
           </div>
           <!-- <div id="sample-metadata" class="panel-body"></div> -->
         </div>
-      </div>
-      <div class="col-md-5">
-        <div id="bar"></div>
-      </div>
-      <div class="col-md-5">
-        <div id="gauge"></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div id="bubble"></div>
-      </div>
-    </div>
-  </div>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div id="heatMap">
+              </div>
+          </div>
+       
+        </div>
 
+        <div class="row">
+          <div class="col-md-6">
+
+        <div id="markerMap"></div>
+      </div>
+    </div>
+
+  </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="bubble">
+            </div>
+        </div>
+       
+      </div>
+    </div>
+          
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="./static/js/app.js"></script>
@@ -77,39 +103,3 @@
 
 </html>
 
-
-<!-- leaflet 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Leaflet Step-1</title>
-<!-- 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin="" />
-
-  <!-- Our CSS -->
-  <link rel="stylesheet" type="text/css" href="static/css/style.css">
-</head>
-
-<body>
-
-  <!-- The div that holds our map -->
-  <div id="map"></div>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
-  <!-- D3 JavaScript -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <!-- Our JavaScript -->
-  <script type="text/javascript" src="static/js/logic.js"></script>
-</body>
-
-</html> --> -->
