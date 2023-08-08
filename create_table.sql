@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS "restaurant_metadata" (
 
 CREATE TABLE IF NOT EXISTS "restaurant_cuisine" (
   "id" TEXT,
-  "cuisines" TEXT
+  "cuisines" TEXT,
   PRIMARY KEY("id", "cuisines")
 );
+
+In terminal go to Resources folder and run this command,
+sqlite3 resources.db < ../create_table.sql
