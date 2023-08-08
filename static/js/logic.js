@@ -111,8 +111,6 @@ function populateStates() {
 
 populateStates();
 
-
-
 function populateCuisine(state) {
     // Make another APi call to get the list of cuisines in selected state
     let cuisineUrl = 'http://localhost:8000/cuisines/' + state;

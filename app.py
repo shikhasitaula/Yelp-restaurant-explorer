@@ -7,11 +7,13 @@ import json
 
 app = Flask(__name__)
 Base = declarative_base()
-engine = db.create_engine("database path")
+engine = db.create_engine("sqlite:///restaurant.db")
 conn = engine.connect()
 session = Session(bind=engine)
 
 @app.route("api/v1/states")
+def get_unique_states():
+    unique_states = session.query(restaurant_metadata.state).distinct()
 # this api should return distinct states as list
 
 # @app.route("/api/v1/<state>/cities") 
