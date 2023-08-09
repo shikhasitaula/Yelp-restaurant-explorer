@@ -7,10 +7,13 @@ Yelp API was used to gather data on 500 restaurants per state, sorted by review 
 Used Yelp API to gather restaurant data.
 
 
+
 Retrieved 500 restaurants for each state.
 
 
+
 Applied offset to navigate through results.
+
 
 
 Sorted data by review count
