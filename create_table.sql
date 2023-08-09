@@ -21,5 +21,7 @@ CREATE TABLE IF NOT EXISTS "restaurant_cuisine" (
   PRIMARY KEY("id", "cuisines")
 );
 
-In terminal go to Resources folder and run this command,
-sqlite3 resources.db < ../create_table.sql
+CREATE TABLE IF NOT EXISTS "states" (
+  "state" TEXT NOT NULL PRIMARY KEY,
+  "alias" TEXT
+);
