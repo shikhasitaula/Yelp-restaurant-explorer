@@ -72,7 +72,7 @@ function initializeMap() {
     }).addTo(map);
 
     // Set the height of the map div (had to ask chatGPT for this)
-    document.getElementById('map').style.height = '400px';
+    document.getElementById('map').style.height = '450px';
 
     // Copied from https://stackoverflow.com/questions/15089541/leaflet-map-loading-half-greyed-tiles
      map.invalidateSize();
@@ -82,7 +82,7 @@ initializeMap();
 
 function populateStates() {
     // Make an API call to get the list of states and populate them into state dropdown
-    stateUrl = "http://127.0.0.1:5000/states";
+    stateUrl = "http://127.0.0.1:5000/api/v1/states";
 
     d3.json(stateUrl).then(function(states){
         // load the data into state dropdown
@@ -94,17 +94,17 @@ function populateStates() {
             .append('a')
             .attr('class', 'dropdown-item')
             .attr('href', '#')
-            .text(state => state)
+            .text(state => state.name)
             .on("click", function(d, state) {
                 // Change the dropdown name to state name
-                d3.select("#stateButton").text(state);
+                d3.select("#stateButton").text(state.name);
 
                 // update the map to focus on this state
-                var coordinates = stateCoordinates[state];
+                var coordinates = stateCoordinates[state.name];
                 map.setView(coordinates, 6);
             
                 // Populate all the cuisines from this state to cuisine dropdown
-                populateCuisine(state);
+                populateCuisine(state.alias);
             })
     });
 }
@@ -113,7 +113,7 @@ populateStates();
 
 function populateCuisine(state) {
     // Make another APi call to get the list of cuisines in selected state
-    let cuisineUrl = 'http://localhost:8000/cuisines/' + state;
+    let cuisineUrl = 'http://127.0.0.1:5000/api/v1/cuisines/' + state;
 
     // First clear the existing items from the dropdown
     d3.select("#cuisineSelect").selectAll('li').remove();
@@ -128,7 +128,7 @@ function populateCuisine(state) {
         // Populate bar chart showing restaurant and count
         let xValues = result.map(function(data) { return data.name; });
         let yValues = result.map(function(data) { return data.count; });
-        barChart(xValues, yValues);
+        pieChart(xValues, yValues);
 
         // add the cuisines to the dropdown
         d3.select("#cuisineSelect")
@@ -155,7 +155,7 @@ function populateRestaurants(state, cuisine) {
         map.removeLayer(restaurantLayer);
     }
 
-    let restaurantUrl =  `http://localhost:9000/restaurants/${state}/${cuisine}`
+    let restaurantUrl =  `http://127.0.0.1:5000/api/v1/restaurants/${state}/${cuisine}`
     d3.json(restaurantUrl).then(function(restaurants) {
 
         // Initialze an array to hold the restaurant markers.
@@ -177,30 +177,36 @@ function populateRestaurants(state, cuisine) {
     });
 }
 
-// function to plot the barchart.
-function barChart(xValues, yValues){
+// function to plot the pieChart.
+function pieChart(xValues, yValues){
     let data = [{
-        x: xValues,
-        y: yValues,
-        marker : {size:8},
-        type: "bar"
+        values: yValues,
+        labels: xValues,
+        type: "pie"
     }];
 
-    Plotly.newPlot("bar", data)
+    Plotly.newPlot("bar", data);
  }
 
  function createPopupContent(data) {
+    let address = "N/A";
+    try {
+       parsedAddress =  JSON.parse(data.address.replace(/'/g, '"'));
+       address = parsedAddress.display_address[0] + "<br\>" + parsedAddress.display_address[1]
+    } catch(error) {
+        console.log('Can not parse address for ' + data.address);
+    }
+
     return `
         <div class="popup-container">
             <div class="row gx-3">
-                <div class="col-md-4">
-                    <img src="static/images/cuisine1.jpg" alt="${data.name}" class="img-fluid rounded-start">
-                    <button type="button" class="btn btn-link mt-2">Website</button>
+                <div class="col-md-6">
+                    <img src=${data.image} alt="${data.name}" class="img-fluid rounded-start" id="popup-image" />
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="card-body">
                         <h5 class="card-title">${data.name}</h5>
-                        <p class="card-text">${data.address}</p>
+                        <p class="card-text">${address}</p>
                         <p class="card-text">Rating: ${data.rating}</p>
                     </div>
                 </div>
