@@ -130,17 +130,18 @@ function populateCuisine(state) {
   // Reset the button name
   d3.select("#cuisineButton").text('Cuisine')
 
-  // Reset the bar graph
+  // Reset the bar graph and pie chart
   d3.select("#bar").html("");
-
+  d3.select("#pie").html("");
+ 
   d3.json(cuisineUrl).then(function(result) {    
       // Populate bar chart showing restaurant and count
       let xValues = result.map(function(data) { return data.name; });
       let yValues = result.map(function(data) { return data.count; });
       barChart(xValues, yValues);
 
-      // add the cuisines to the dropdown
-      d3.select("#cuisineSelect")
+       // add the cuisines to the dropdown
+        d3.select("#cuisineSelect")
           .selectAll('li')
           .data(result)
           .enter()
@@ -154,8 +155,34 @@ function populateCuisine(state) {
 
               // Add restaurant markers to leaflet tiles 
               populateRestaurants(state, i.name);
+
+            // Plot pie chart showing cuisine distribution
+        plotPieChart(result);  
+
+          // Plot stacked bar chart showing distribution of ratings within price ranges
+          plotStackedBarChart(state, i.name);
+
           });
   });
+}
+
+
+// Function to plot the pie chart.
+function plotPieChart(data) {
+  let labels = data.map(cuisine => cuisine.name);
+  let values = data.map(cuisine => cuisine.count);
+
+  let trace = {
+    labels: labels,
+    values: values,
+    type: "pie"
+  };
+
+  let layout = {
+    title: "Cuisine Distribution"
+  };
+
+  Plotly.newPlot("pie", [trace], layout);
 }
 
 function populateRestaurants(state, cuisine) {
@@ -186,17 +213,6 @@ function populateRestaurants(state, cuisine) {
   });
 }
 
-// function to plot the barchart.
-function barChart(xValues, yValues){
-  let data = [{
-      x: xValues,
-      y: yValues,
-      marker : {size:8},
-      type: "bar"
-  }];
-
-  Plotly.newPlot("bar", data)
-}
 
 function createPopupContent(data) {
   return `
@@ -225,107 +241,91 @@ function createPopupContent(data) {
 
 
 
+// // Polulate the scatter chart showing price range and Ratings
+// d3.select("scatterPlot").html("");
+// d3.json(cuisineUrl).then(function(result) {    
+//     // Populate bar chart showing restaurant and count
+          
+//     let xValues1 = result.map(function(data) { return data.price; });
+//     let yValues1 = result.map(function(data) { return data.ratings; });
+//     scatterChart(xValues1, yValues1);
+// // function to plot the barchart.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // Filter the data to get the information for the selected sample
-// let selectedData = data.samples.filter(sample => sample.id === selectedSample);
-// let newData = selectedData[0]
-
-// // Get the top 10 OTUs for the selected sample
-// let sampleValues = newData.sample_values.slice(0, 10).reverse();
-// let otuIDs = newData.otu_ids.slice(0, 10).reverse().map(id => `OTU ${id}`);
-// let otuLabels = newData.otu_labels.slice(0, 10).reverse();
-
-// // Create the trace for the horizontal bar chart
-// let trace1 = {
-//   x: sampleValues,
-//   y: otuIDs,
-//   text: otuLabels,
-//   name: "OTUs",
-//   type: "bar",
-//   orientation: "h"
-// };
-
-// // Define the layout for the chart
+// function ScatterPlot(xValues1, yValues1){
+// let data = [{
+//   x: xValues1,
+//   y: yValues1,
+//   mode : "circle",
+//   type: "scatter"
+// }];
 // let layout = {
-//   title: "Top 10 OTUs Found",
-//   xaxis: { title: "Sample Values" },
-//   yaxis: { title: "OTU IDs" },
+// title: "scatter Plot Prices vs Ratings",
+// xaxis: Price ,
+// yaxis: ratings
+   
+// }}
 // };
-
-// // Plot the chart using Plotly
-// Plotly.newPlot("bar", [trace1], layout);
-
-//   // Create the trace for the bubble chart
-//   let trace2 = {
-//     x: newData.otu_ids,
-//     y: newData.sample_values,
-//     text: newData.otu_labels,
-//     mode: "markers",
-//     marker: {
-//       size: newData.sample_values,
-//       color: newData.otu_ids,
-//       colorscale: "Earth",
-//     },
-//   };
-
-//   // Define the layout for the bubble chart
-//   let layout2 = {
-//     title: "Samples",
-//     xaxis: { title: "OTU IDs" },
-//     yaxis: { title: "Sample Values" },
-//   };
-
-//   // Plot the bubble chart using Plotly
-//   Plotly.newPlot("bubble", [trace2], layout2);
-
-// });
-
-// };
-
-// function init() {
-//   // grab the item to the dropdown section
-//     let selector = d3.select("#selDataset");
-
-//     //use sample name as a select option
-//     d3.json(url).then((data) => {
-
-//     let dataNames = data.names;
-      
-//     for ( let i = 0; i< dataNames.length; i ++) {
-//       selector
-//         .append("option")
-//         .text(dataNames[i])
-//         .property("value", dataNames[i]);
-//     };
-// let firstSample = dataNames[0];
+// Plotly.newPlot("scatter", data, layout)
 
 
-// // Call the buildCharts 
-// buildCharts(firstSample, data);
 
-// showMetaData(firstSample)
 
+
+
+// function StackedBarChart(data) {
+//   let priceRanges = ['$', '$$', '$$$', '$$$$'];
+//   let traces = [];
+
+//   data.forEach(cuisine => {
+//     let xValues = priceRanges;
+//     let yValues = priceRanges.map(price => cuisine.ratings[price] || 0);
+
+//     traces.push({
+//       x: xValues,
+//       y: yValues,
+//       name: cuisine.name,
+//       type: 'bar'
+//     });
 //   });
+
+//   let layout = {
+//     barmode: 'stack',
+//     title: 'Ratings Distribution by Price Range'
+//   };
+
+//   Plotly.newPlot('StackedBarChart', traces, layout);
 // }
-// function optionChanged(sampleData2){
-//   buildCharts(sampleData2) 
-//   showMetaData(sampleData2)
-// } 
- 
-// init();
+
+
+
+
+
+// function PieChart(data) {
+//   let labels = data.map(cuisine => cuisine.name);
+//   let values = data.map(cuisine => cuisine.count);
+
+//   let trace = {
+//     labels: labels,
+//     values: values,
+//     type: 'pie'
+//   };
+
+//   let layout = {
+//     title: 'Cuisine Distribution'
+//   };
+
+//   Plotly.newPlot('cuisinePieChart', [trace], layout);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
 

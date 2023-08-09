@@ -1,7 +1,8 @@
 # project_3
 
-#  add the title.................   Discovering Culinary Delights Across the States
-   ...............Cuisine Explorer Dashboard:
+# Yelp restaurant Explorer
+
+Dash Board
 
 This project focuses on analyzing restaurant data through the Yelp API to identify the best-reviewed restaurants in each state. It also uncovers popular cuisines within cities, presents restaurant reviews using marker maps, and showcases cuisine distribution via heatmaps. The project brings these insights to life through an interactive dashboard, facilitating an effortless exploration of the diverse culinary landscape across the United States.
 
@@ -11,8 +12,14 @@ This project focuses on analyzing restaurant data through the Yelp API to identi
 - Identifies the highest-rated restaurant in each state.
 - Lists the most popular cuisines within each city.
 - Creates marker maps to visually represent restaurant reviews based on location.
-- Generates heatmaps for an intuitive display of cuisine distribution.
 - Presents data through an interactive dashboard for effortless understanding.
+
+The repository structure is organized as follows:
+
+- `index.html`: The primary HTML file containing the dashboard's layout and elements.
+- `static/css/style.css`: Custom CSS file for styling the dashboard.
+- `static/js/logic.js`: JavaScript file responsible for populating the charts and map with data.
+- `static/images/`: Directory containing images used within the dashboard.
 
 ## Technologies Used
 
@@ -25,5 +32,3 @@ This project focuses on analyzing restaurant data through the Yelp API to identi
 ## Data Collection and Analysis
 
 This project acquires restaurant data from the Yelp API and organizes it within an SQLite database. The collected information is then analyzed and harnessed to create engaging visualizations that are presented through an intuitive dashboard.
-
-
