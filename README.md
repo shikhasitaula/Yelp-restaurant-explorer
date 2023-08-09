@@ -5,20 +5,38 @@ Yelp API was used to gather data on 500 restaurants per state, sorted by review 
 
 # Data Extraction:
 Used Yelp API to gather restaurant data.
+
+
 Retrieved 500 restaurants for each state.
+
+
 Applied offset to navigate through results.
+
+
 Sorted data by review count
 
 # Data Cleaning:
+
 Converted API data to a pandas DataFrame.
-New columns were generated based on existing data to facilitate easier analysis and visualization
+
+
+New columns were generated based on existing data to facilitate easier analysis and visualization.
+
+
 The data was refined by selecting only the relevant columns that focus on key attributes of the restaurants.
+
+
 To enhance data structuring and analysis, the cuisine information was transformed from an array into individual columns.
 
+
+
 # Database Management:
-Created an SQLite database named 'restaurants.db'.
-Established a connection to the database (conn).
+Created an SQLite database named 'restaurants.db'and established a connection to the database.
+
+
 Two tables were designed to organize restaurant metadata and cuisine information.
+
+
 A CSV file was used to source state data, which was then converted to a DataFrame and subsequently stored in the 'states' table.
 
 # Database Schema
@@ -27,6 +45,7 @@ The tables "restaurant_metadata," "restaurant_cuisine," and "states" were create
 
 # Web Development:
 Utilized SQLAlchemy to interact with the SQLite database.
+
 
 Developed Flask app routes for different visualization needs.
 
