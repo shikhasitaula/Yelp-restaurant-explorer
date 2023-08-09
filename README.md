@@ -29,7 +29,10 @@ The tables "restaurant_metadata," "restaurant_cuisine," and "states" were create
 Utilized SQLAlchemy to interact with the SQLite database.
 Developed Flask app routes for different visualization needs.
 Flask API route /api/v1.0/states is used to retrieve state information from the database and present it in a structured JSON format.
+
 API route /api/v1.0/cuisines is used to retrieve distinct cuisine information from the database. 
+
 API route /api/v1.0/restaurant_info is used to retrieve restaurant information based on the filters state, cuisine, ratings and price from the database. The route utilizes query parameters to customize the search criteria based on dropdown menu.
+
 API route /api/v1.0/cuisine_distribution serves as a method to calculate and retrieve the distribution of cuisines based on specified filters from the database.
 
