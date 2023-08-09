@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 import numpy as np
 import json
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 # Database Setup
 engine = create_engine("sqlite:///project_3/Resources/restaurants.db")
 
@@ -72,10 +72,27 @@ def cuisines():
 
 @app.route("/api/v1.0/restaurant_info")
 def location():
+    state = request.args.get('state', type=str)
+    cuisine = request.args.get('cuisine', type=str)
+    price = request.args.get('price',type=str)
+    rating = request.args.get('rating',type=float)
+    
     # Create our session (link) from Python to the DB
     session = Session(engine)
     # Find the most recent date in the data set.
-    restaurants = session.query(Metadata).all()
+    query = session.query(Metadata)
+    if cuisine:
+        query=query.join(Cuisine, Metadata.id==Cuisine.id).filter(
+            Cuisine.cuisines==cuisine
+            )
+    if state:
+        query=query.filter(Metadata.state==state)
+    if price:
+        query=query.filter(Metadata.price==price)
+    if rating:
+        query=query.filter(Metadata.rating>=rating)
+    
+    restaurants = query.all()
     session.close()
     restaurants_list = []
     for restaurant in restaurants:
@@ -88,8 +105,8 @@ def location():
             "price": restaurant.price,
             "latitude": restaurant.latitude,
             "longitude": restaurant.longitude,
-            "city": restaurant.city
-
+            "city": restaurant.city,
+            "state": restaurant.state
         }
         restaurants_list.append(restaurant_dict)
 
