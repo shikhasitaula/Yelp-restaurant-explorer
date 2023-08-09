@@ -1,1 +1,4 @@
 # project_3
+We used Yelp API from their Yelp Developer website to extract data. Using pandas we were able to import data from API. Based on the documentation for the API we used parameters to filter out data. Parameters used were 'location' to filter out each state, 'offset' to get unique values for each request, 'sort_by' to get restaurants with higher review count and 'term' to get business that are only food based. After storing this data in a list it was converted to a dataframe and saved as a csv file. 
+
+Next the data was cleaned using Pandas. Some columns like cuisines, locations and coordinates had values that were presented as a dictionary within a list. So using pandas function the list was converted to a list object and looped through each item in the dictionary to obtain the values which were stored as seperate columns. For example from coordinates the columns latitude and longitude were created. Duplicate values and unnecessary columns were dropped. 
