@@ -7,14 +7,15 @@ import json
 
 from flask import Flask, jsonify
 # Database Setup
-engine = create_engine("sqlite:///project_3/Resources/restaurants.db")
+engine = create_engine(
+    "sqlite:///project_3/Resources/restaurants.db", echo=True)
 
 # reflect an existing database into a new model
 Base = automap_base()
 
 # reflect the tables
 Base.prepare(autoload_with=engine)
-# 
+#
 print(Base.classes.keys())
 
 # Save references to each table
@@ -27,6 +28,7 @@ States = Base.classes.states
 app = Flask(__name__)
 # Flask Routes
 
+
 @app.route('/')
 def index():
     """List all available api routes."""
@@ -38,7 +40,6 @@ def index():
     )
 
 
-
 @app.route("/api/v1.0/states")
 def states():
     # Create our session (link) from Python to the DB
@@ -46,16 +47,17 @@ def states():
     # Find the most recent date in the data set.
     unique_states = session.query(States.state, States.alias).all()
     session.close()
-  
+
     state_list = []
     for state, alias in unique_states:
         state_dict = {}
         state_dict["state"] = state
         state_dict["alias"] = alias
-        
+
         state_list.append(state_dict)
 
     return jsonify(state_list)
+
 
 @app.route("/api/v1.0/cuisines")
 def cuisines():
@@ -67,8 +69,9 @@ def cuisines():
     cuisine_list = []
     for cuisine in unique_cuisines:
         cuisine_list.append({"cuisine": cuisine.cuisines})
-    
+
     return jsonify(cuisine_list)
+
 
 @app.route("/api/v1.0/restaurant_info")
 def location():
@@ -80,7 +83,7 @@ def location():
     restaurants_list = []
     for restaurant in restaurants:
         restaurant_dict = {
-           "id": restaurant.id,
+            "id": restaurant.id,
             "name": restaurant.name,
             "url": restaurant.url,
             "review_count": restaurant.review_count,
@@ -93,11 +96,7 @@ def location():
         }
         restaurants_list.append(restaurant_dict)
 
-       
-    
     return jsonify(restaurants_list)
-
-
 
 
 if __name__ == "__main__":
