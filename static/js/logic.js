@@ -102,9 +102,13 @@ function populateStates() {
                 // update the map to focus on this state
                 var coordinates = stateCoordinates[state.name];
                 map.setView(coordinates, 6);
-            
                 // Populate all the cuisines from this state to cuisine dropdown
                 populateCuisine(state.alias);
+                
+                // Add restaurant markers to leaflet tiles 
+                populateRestaurants(state.alias)
+                // Create a stackbar
+                stackedBarChart(state.alias);
             })
     });
 }
@@ -158,8 +162,12 @@ function populateRestaurants(state, cuisine) {
     if (restaurantLayer) {
         map.removeLayer(restaurantLayer);
     }
-
-    let restaurantUrl =  `http://127.0.0.1:5000/api/v1/restaurants/${state}/${cuisine}`
+    let restaurantUrl
+    if(typeof cuisine == 'undefined') {
+        restaurantUrl =  `http://127.0.0.1:5000/api/v1/restaurants/${state}`
+    } else {
+        restaurantUrl =  `http://127.0.0.1:5000/api/v1/restaurants/${state}/${cuisine}`
+    }
     d3.json(restaurantUrl).then(function(restaurants) {
 
         // Initialze an array to hold the restaurant markers.
@@ -186,11 +194,25 @@ function pieChart(xValues, yValues){
     let data = [{
         values: yValues,
         labels: xValues,
-        type: "pie"
+        type: "pie",
+        hole: 0.4,
+        textinfo: "label+percent", // Display both label and percentage inside slices
+        insidetextorientation: "radial" // Place the text radially inside the slices
     }];
+    let layout = {
+        title: "Cusine distribution",
+        showlegend: false,
+        legend: {
+            x: 1,
+            y: 0.5
+        },
+        
+        // Add more layout customizations here as needed
+    };
 
-    Plotly.newPlot("pie", data);
+    Plotly.newPlot("pie", data, layout);
  }
+ 
 
  function createPopupContent(data) {
     let address = "N/A";
@@ -212,6 +234,7 @@ function pieChart(xValues, yValues){
                         <h5 class="card-title">${data.name}</h5>
                         <p class="card-text">${address}</p>
                         <p class="card-text">Rating: ${data.rating}</p>
+                        <p class="card-text"><a href="${data.url}" target="_blank">More details</a></p>
                     </div>
                 </div>
             </div>
@@ -221,7 +244,12 @@ function pieChart(xValues, yValues){
 
 
 function stackedBarChart(state , cuisine) {
-    let priceAndRatingUrl =  `http://127.0.0.1:5000/api/v1/price-rating/${state}/${cuisine}`
+    let priceAndRatingUrl
+    if(typeof cuisine == 'undefined') {
+        priceAndRatingUrl =  `http://127.0.0.1:5000/api/v1/price-rating/${state}`
+    } else {
+        priceAndRatingUrl =  `http://127.0.0.1:5000/api/v1/price-rating/${state}/${cuisine}`
+    }
     d3.json(priceAndRatingUrl).then(function(result) {
         
         // Dividing ratings into buckets
