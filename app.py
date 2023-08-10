@@ -1,6 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from flask_cors import CORS
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func 
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
@@ -26,13 +26,7 @@ States = Base.classes.states
 
 @app.route('/')
 def index():
-    """List all available api routes."""
-    return (
-        f"Available Routes:<br/>"
-        f"/api/v1.0/cuisines<br/>"
-        f"/api/v1.0/restaurant_info<br/>"
-        f"/api/v1.0/states"
-    )
+    return render_template('index.html')
 
 @app.route("/api/v1/states")
 def get_unique_states():
@@ -83,7 +77,7 @@ def get_cusines(state):
     
     sorted_data = sorted(result, key=lambda x: x['count'], reverse=True)
     
-    return jsonify(sorted_data[0:10])
+    return jsonify(sorted_data[0:20])
         
 @app.route('/api/v1/restaurants/<state>/<cuisine>')
 def get_restaurants(state, cuisine):
@@ -115,6 +109,31 @@ def get_restaurants(state, cuisine):
         restaurants_list.append(restaurant_dict)
     return jsonify(restaurants_list)
     
+    
+@app.route("/api/v1/price-rating/<state>/<cuisine>")
+def price_rating(state,cuisine):
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+    # Getting price and ratings
+    query = session.query(RestaurantMetadata.price,
+                          RestaurantMetadata.rating,
+                          func.count(RestaurantMetadata.id).label('count')
+                          ).join(States, States.alias == RestaurantMetadata.state) \
+        .filter(States.alias == state) \
+        .filter(RestaurantMetadata.cuisines.like(f'%{cuisine}%')).group_by(
+        RestaurantMetadata.price,RestaurantMetadata.rating
+        ).order_by(RestaurantMetadata.price)
+    result = query.all()
+    session.close()
+    price_rating_list = []
+    for pr in result:
+        cuisine_dict = {
+           "price": "Unknown" if pr.price==None else pr.price,
+           "rating": pr.rating,
+           "count": pr.count,
+        }
+        price_rating_list.append(cuisine_dict)
+    return jsonify(price_rating_list)
    
 if __name__ == "__main__":
     app.run(debug=True)

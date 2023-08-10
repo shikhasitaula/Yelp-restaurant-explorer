@@ -145,6 +145,10 @@ function populateCuisine(state) {
 
                 // Add restaurant markers to leaflet tiles 
                 populateRestaurants(state, i.name);
+
+                // Create a stackbar
+                stackedBarChart(state , i.name);
+
             });
     });
 }
@@ -185,7 +189,7 @@ function pieChart(xValues, yValues){
         type: "pie"
     }];
 
-    Plotly.newPlot("bar", data);
+    Plotly.newPlot("pie", data);
  }
 
  function createPopupContent(data) {
@@ -194,7 +198,7 @@ function pieChart(xValues, yValues){
        parsedAddress =  JSON.parse(data.address.replace(/'/g, '"'));
        address = parsedAddress.display_address[0] + "<br\>" + parsedAddress.display_address[1]
     } catch(error) {
-        console.log('Can not parse address for ' + data.address);
+        // DO nothing
     }
 
     return `
@@ -214,3 +218,54 @@ function pieChart(xValues, yValues){
         </div>
     `;
 }
+
+
+function stackedBarChart(state , cuisine) {
+    let priceAndRatingUrl =  `http://127.0.0.1:5000/api/v1/price-rating/${state}/${cuisine}`
+    d3.json(priceAndRatingUrl).then(function(result) {
+        
+        // Dividing ratings into buckets
+        var ratingBuckets = ['1-2', '2-3', '3-4', '4-5'];
+        var priceRange = ['$', '$$', '$$$', '$$$$'];
+
+        var traces = [];
+
+        for (let i = 0; i < ratingBuckets.length; i++) {
+            let priceCount = [0, 0, 0, 0];
+            for (let j = 0; j < result.length; j++) {
+                if (Math.floor(result[j].rating) !== i + 1) {
+                    continue;
+                } 
+
+                if (result[j].price === '$') {
+                    priceCount[0] += result[j].count;
+                } else if (result[j].price === '$$') {
+                    priceCount[1] += result[j].count;
+                } else if (result[j].price === '$$$') {
+                    priceCount[2] += result[j].count;
+                } else if (result[j].price === '$$$$') {
+                    priceCount[3] += result[j].count;
+                }
+            }
+
+            let trace =  {
+                x: priceRange,
+                y: priceCount,
+                name: `Rating [${i + 1}-${i + 2}]`,
+                type: 'bar'
+              };
+
+              traces.push(trace);
+        }
+        
+        var layout = {
+            barmode: 'stack',
+            title: 'Rating Distribution by Price Range',
+            xaxis: { title: 'Price Range' },
+            yaxis: { title: 'Count' },
+            showlegend: true
+          };
+
+          Plotly.newPlot('stacked-bar', traces, layout);
+    });
+ }
