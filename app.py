@@ -35,6 +35,7 @@ def index():
         f"/api/v1.0/cuisines<br/>"
         f"/api/v1.0/restaurant_info<br/>"
         f"/api/v1.0/cuisine_distribution<br/>"
+        f"/api/v1.0/price_rating<br/>"
         f"/api/v1.0/states"
     )
 
