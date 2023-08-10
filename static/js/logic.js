@@ -220,6 +220,7 @@ function pieChart(xValues, yValues){
                         <h5 class="card-title">${data.name}</h5>
                         <p class="card-text">${address}</p>
                         <p class="card-text">Rating: ${data.rating}</p>
+                        <p class="card-text"><a href="${data.url}" target="_blank">More details</a></p>
                     </div>
                 </div>
             </div>
