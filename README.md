@@ -8,7 +8,7 @@ The Restaurant Explorer Dashboard is a web application that allows users to expl
 * Restaurant popups with detailed information when markers are clicked. 
 * Stacked chart that show the relation between price and rating.
 
-## Data collection
+## Data collection, cleaning and loading
 
 Yelp API was used to gather data on 500 restaurants per state, sorted by review count, and extracted it using offsets. After converting the data into a pandas DataFrame, it was cleaned and uploaded to a SQLite database. We then created tables and added primary keys. Using SQLAlchemy and Flask, app routes were devoloped for creating visualizations with D3.js.
 
@@ -22,15 +22,9 @@ Yelp API was used to gather data on 500 restaurants per state, sorted by review 
 - Converted API data to a pandas DataFrame.
 - New columns were generated based on existing data to facilitate easier analysis and visualization.
 - The data was refined by selecting only the relevant columns that focus on key attributes of the restaurants.
-- To enhance data structuring and analysis, the cuisine information was transformed from an array into individual columns.
+- To enhance data structuring and analysis, the cuisine information was extracted from alist of dictionary and made into an individual column.
 
-3. ### Data Cleaning:
-- Converted API data to a pandas DataFrame.
-- New columns were generated based on existing data to facilitate easier analysis and visualization.
-- The data was refined by selecting only the relevant columns that focus on key attributes of the restaurants.
-- To enhance data structuring and analysis, the cuisine information was transformed from an array into individual columns.
-
-4. #### Database Schema
+3. #### Database Schema
 The tables "restaurant_metadata," "restaurant_cuisine," and "states" were created to store restaurant information, cuisine data, and state information, with primary keys respectively .
   
 ## Flask API
