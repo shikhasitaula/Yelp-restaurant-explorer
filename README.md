@@ -4,7 +4,11 @@
 
 Dash Board
 
+<<<<<<< HEAD
 This project focuses on analyzing restaurant data through the Yelp API to identify the best-reviewed restaurants in each state. It also uncovers popular cuisines within cities, presents restaurant reviews using marker maps, and showcases cuisine distribution via bar chart, pie chart. The project brings these insights to life through an interactive dashboard, facilitating an effortless exploration of the diverse culinary landscape across the United States.
+=======
+This project focuses on analyzing restaurant data through the Yelp API to identify the best-reviewed restaurants in each state. It also uncovers popular cuisines within cities, presents restaurant reviews using marker maps, and showcases cuisine distribution via bar charts, and pie charts. The project brings these insights to life through an interactive dashboard, facilitating an effortless exploration of the diverse culinary landscape across the United States.
+>>>>>>> 02b0893bfa3d5d9771b9a0e53944e2fe7bcf29d5
 
 ## Features
 
