@@ -194,11 +194,25 @@ function pieChart(xValues, yValues){
     let data = [{
         values: yValues,
         labels: xValues,
-        type: "pie"
+        type: "pie",
+        hole: 0.4,
+        textinfo: "label+percent", // Display both label and percentage inside slices
+        insidetextorientation: "radial" // Place the text radially inside the slices
     }];
+    let layout = {
+        title: "Cusine distribution",
+        showlegend: false,
+        legend: {
+            x: 1,
+            y: 0.5
+        },
+        
+        // Add more layout customizations here as needed
+    };
 
-    Plotly.newPlot("pie", data);
+    Plotly.newPlot("pie", data, layout);
  }
+ 
 
  function createPopupContent(data) {
     let address = "N/A";
