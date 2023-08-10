@@ -78,18 +78,21 @@ def get_cusines(state):
     sorted_data = sorted(result, key=lambda x: x['count'], reverse=True)
     
     return jsonify(sorted_data[0:20])
-        
+
+@app.route('/api/v1/restaurants/<state>')
 @app.route('/api/v1/restaurants/<state>/<cuisine>')
-def get_restaurants(state, cuisine):
+def get_restaurants(state, cuisine=None):
     session = Session(engine)
     
     # Find the most recent date in the data set.
-    restaurants = session.query(RestaurantMetadata) \
+    query = session.query(RestaurantMetadata) \
         .join(States, States.alias == RestaurantMetadata.state) \
-        .filter(States.alias == state) \
-        .filter(RestaurantMetadata.cuisines.like(f'%{cuisine}%')) \
-        .all()
+        .filter(States.alias == state)
     
+    if cuisine:
+        query = query.filter(RestaurantMetadata.cuisines.like(f'%{cuisine}%'))
+        
+    restaurants = query.all()
     session.close()
     
     restaurants_list = []
@@ -109,18 +112,20 @@ def get_restaurants(state, cuisine):
         restaurants_list.append(restaurant_dict)
     return jsonify(restaurants_list)
     
-    
+@app.route("/api/v1/price-rating/<state>")    
 @app.route("/api/v1/price-rating/<state>/<cuisine>")
-def price_rating(state,cuisine):
+def price_rating(state,cuisine=None):
     # Create our session (link) from Python to the DB
     session = Session(engine)
     # Getting price and ratings
     query = session.query(RestaurantMetadata.price,
                           RestaurantMetadata.rating,
                           func.count(RestaurantMetadata.id).label('count')
-                          ).join(States, States.alias == RestaurantMetadata.state) \
-        .filter(States.alias == state) \
-        .filter(RestaurantMetadata.cuisines.like(f'%{cuisine}%')).group_by(
+                          ).join(States, States.alias == RestaurantMetadata.state).filter(States.alias == state) 
+    if cuisine:
+        query = query.filter(RestaurantMetadata.cuisines.like(f'%{cuisine}%'))
+        
+    query = query.group_by(
         RestaurantMetadata.price,RestaurantMetadata.rating
         ).order_by(RestaurantMetadata.price)
     result = query.all()
